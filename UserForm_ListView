@@ -1,0 +1,53 @@
+Option Explicit
+
+
+Private Sub cmdadditems_Click()
+
+Dim li As ListItem
+Dim r As Long
+Dim c As Long
+
+'set the ListView
+With Me.LV1
+    .View = lvwReport
+    .Gridlines = True
+    .HideColumnHeaders = False
+End With
+
+
+'Loop the Column To set the ColumnHeader 
+ For c = 0 To 7
+            
+     With Me.LV1
+     .ColumnHeaders.Add , , Cells(1, c + 1), Cells(1, c + 1).Width  
+     End With
+
+ Next
+
+'add the check box 
+LV1.CheckBoxes = True
+'adjust the chebox position 
+LV1.ColumnHeaders(1).Position = 5
+
+
+'add the items value 
+For r = 2 To 16 
+   With Me.LV1
+        Set li = .ListItems.Add(, , Cells(r, 1))   
+        For c = 1 To 8
+            li.ListSubItems.Add , , Cells(r, c + 1)  
+        Next
+   End With                              
+Next
+
+End Sub
+
+'Close the UserForm
+Private Sub CommandButton2_Click()
+    Unload Me
+End Sub
+
+'Value diapaly in textBox 
+Private Sub LV1_ItemClick(ByVal Item As MSComctlLib.ListItem)   
+Me.TextBox1.Value = Item.Text & " | " & Item.Checked
+End Sub
